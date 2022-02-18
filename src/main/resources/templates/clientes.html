@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes</title>
+</head>
+<body>
+    <div th:each="cliente : ${clientes}">
+        <div>Nome: <span th:text="${cliente.nome}"></span></div>
+        <div>Email:<span th:text="${cliente.email}"></span> </div>
+        <div>Conta: <span th:text="${cliente.conta}"></span></div>
+        <div>Agência: <span th:text="${cliente.agencia}"></span></div>
+    </div>
+</body>
+</html>
