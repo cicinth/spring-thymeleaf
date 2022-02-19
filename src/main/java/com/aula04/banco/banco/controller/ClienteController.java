@@ -1,10 +1,12 @@
 package com.aula04.banco.banco.controller;
 
+import com.aula04.banco.banco.dto.RequestCliente;
 import com.aula04.banco.banco.model.BancoCliente;
 import com.aula04.banco.banco.model.Cliente;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -14,16 +16,25 @@ public class ClienteController {
 
     @GetMapping("/clientes")
     public String clientes(Model model){
-        Cliente cliente = new Cliente("Nath", "nath@letscode.com", 123, 0);
-        Cliente cliente2 = new Cliente("Raphael", "rapha@letscode.com", 1234, 0);
-
-        bancoCliente.adiciona(cliente);
-        bancoCliente.adiciona(cliente2);
-
         List<Cliente> clientes = bancoCliente.buscaClientes();
-
         model.addAttribute("clientes", clientes);
 
         return "clientes";
+    }
+
+    @GetMapping("/cadastra/cliente")
+    public String formClientes(){ return  "formCliente"; }
+
+    @PostMapping("/cliente")
+    public String cadastraCliente(RequestCliente requestCliente, Model model){
+        Cliente cliente = new Cliente(
+                requestCliente.getNome(),
+                requestCliente.getEmail(),
+                requestCliente.getConta(),
+                requestCliente.getAgencia()
+        );
+        bancoCliente.adiciona(cliente);
+        model.addAttribute("nome", cliente.getNome());
+        return  "clienteCadastrado";
     }
 }
