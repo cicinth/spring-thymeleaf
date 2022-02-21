@@ -1,5 +1,7 @@
-package com.aula04.banco.banco.model;
+package com.aula04.banco.banco.dto;
 
+
+import com.aula04.banco.banco.model.Conta;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,10 +11,9 @@ import java.util.UUID;
 
 @Getter @Setter
 @AllArgsConstructor
-public class Cliente {
+public class ResponseCliente {
     private UUID id;
     private String nome;
     private String email;
-    private String senha;
-    private List<Conta> contas;
+    private List<Conta> conta;
 }
