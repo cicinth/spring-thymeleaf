@@ -8,10 +8,7 @@ import com.aula04.banco.banco.model.Conta;
 import com.aula04.banco.banco.model.TipoConta;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +29,15 @@ public class ClienteController {
         Cliente cliente2 = new Cliente(UUID.randomUUID(), "teste2", "teste2@teste", "12134", contas);
         bancoCliente.adiciona(cliente);
         bancoCliente.adiciona(cliente2);
-
-        return bancoCliente.buscaClientes();
+        return ResponseCliente.toResponse(bancoCliente.buscaClientes());
     }
 
     @GetMapping("/cadastra/cliente")
     public String formClientes(){ return  "formCliente"; }
 
     @PostMapping
-    public String cadastraCliente(RequestCliente requestCliente, Model model){
+    @ResponseBody
+    public ResponseCliente cadastraCliente(@RequestBody RequestCliente requestCliente){
 //        Cliente cliente = new Cliente(
 //                requestCliente.getNome(),
 //                requestCliente.getEmail(),
