@@ -8,6 +8,5 @@ public class RequestCliente {
     private String nome;
     private String email;
     private String senha;
-    private Integer conta;
-    private  Integer agencia;
+    private Integer agencia;
 }

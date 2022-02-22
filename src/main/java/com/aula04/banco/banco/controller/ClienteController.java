@@ -12,40 +12,35 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/cliente")
 public class ClienteController {
+
     BancoCliente  bancoCliente = new BancoCliente();
+    Random random = new Random();
 
     @GetMapping
-    @ResponseBody
     public List<ResponseCliente> clientes(){
-        List<Conta> contas = new ArrayList<>();
-        Conta conta = new Conta(UUID.randomUUID(), 343242, 23, TipoConta.CONTA_CORRENTE);
-        contas.add(conta);
-        Cliente cliente = new Cliente(UUID.randomUUID(), "teste", "teste@teste", "12134", contas);
-        Cliente cliente2 = new Cliente(UUID.randomUUID(), "teste2", "teste2@teste", "12134", contas);
-        bancoCliente.adiciona(cliente);
-        bancoCliente.adiciona(cliente2);
-        return ResponseCliente.toResponse(bancoCliente.buscaClientes());
+        List<Cliente> clientes = bancoCliente.buscaClientes();
+        return ResponseCliente.toResponse(clientes);
     }
 
-    @GetMapping("/cadastra/cliente")
-    public String formClientes(){ return  "formCliente"; }
-
     @PostMapping
-    @ResponseBody
     public ResponseCliente cadastraCliente(@RequestBody RequestCliente requestCliente){
-//        Cliente cliente = new Cliente(
-//                requestCliente.getNome(),
-//                requestCliente.getEmail(),
-//                requestCliente.getConta(),
-//                requestCliente.getAgencia()
-//        );
-//        bancoCliente.adiciona(cliente);
-//        model.addAttribute("nome", cliente.getNome());
-        return  "clienteCadastrado";
+        List<Conta> contas = new ArrayList<>();
+        Conta conta = new Conta(UUID.randomUUID(), random.nextInt(), requestCliente.getAgencia(), TipoConta.CONTA_CORRENTE);
+        contas.add(conta);
+        Cliente cliente = new Cliente(
+                UUID.randomUUID(),
+                requestCliente.getNome(),
+                requestCliente.getEmail(),
+                requestCliente.getSenha(),
+                contas
+        );
+        bancoCliente.adiciona(cliente);
+        return new ResponseCliente(cliente);
     }
 }

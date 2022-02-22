@@ -10,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Conta {
     private UUID id;
-    private Integer numeroConta;
+    private Integer conta;
     private Integer agencia;
     private TipoConta tipoConta;
 }
