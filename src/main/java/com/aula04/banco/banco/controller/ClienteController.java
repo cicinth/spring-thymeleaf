@@ -1,6 +1,7 @@
 package com.aula04.banco.banco.controller;
 
 import com.aula04.banco.banco.dto.RequestCliente;
+import com.aula04.banco.banco.dto.RequestDeposito;
 import com.aula04.banco.banco.dto.ResponseCliente;
 import com.aula04.banco.banco.model.BancoCliente;
 import com.aula04.banco.banco.model.Cliente;
@@ -37,7 +38,7 @@ public class ClienteController {
             UriComponentsBuilder uriComponentsBuilder
     ){
         List<Conta> contas = new ArrayList<>();
-        Conta conta = new Conta(UUID.randomUUID(), random.nextInt(), requestCliente.getAgencia(), TipoConta.CONTA_CORRENTE);
+        Conta conta = new Conta(UUID.randomUUID(), random.nextInt(), requestCliente.getAgencia(), TipoConta.CONTA_CORRENTE, 0.0);
         contas.add(conta);
         Cliente cliente = new Cliente(
                 UUID.randomUUID(),
@@ -56,7 +57,7 @@ public class ClienteController {
         Cliente cliente = bancoCliente.detalhesCliente(id);
         return ResponseEntity.ok(new ResponseCliente(cliente));
     }
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ResponseCliente> atualizaCliente(
             @PathVariable UUID id,
             @RequestBody RequestCliente requestCliente
@@ -64,5 +65,19 @@ public class ClienteController {
         Cliente cliente = bancoCliente.atualizaCliente(id, requestCliente);
 
         return ResponseEntity.ok(new ResponseCliente(cliente));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletaCliente(@PathVariable UUID id) throws Exception {
+        bancoCliente.deletaCliente(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/deposita")
+    public ResponseEntity deposita(
+            @RequestHeader("id") UUID id,
+            @RequestBody RequestDeposito requestDeposito
+    ) throws Exception {
+        bancoCliente.deposita(id, requestDeposito);
+        return ResponseEntity.ok().build();
     }
 }
