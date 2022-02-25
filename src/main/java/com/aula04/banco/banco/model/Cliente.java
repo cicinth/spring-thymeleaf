@@ -14,5 +14,5 @@ public class Cliente {
     private String nome;
     private String email;
     private String senha;
-    private List<Conta> contas;
-}
+
+    private List<Conta> contas;}
