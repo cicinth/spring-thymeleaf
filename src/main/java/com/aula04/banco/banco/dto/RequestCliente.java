@@ -1,6 +1,7 @@
 package com.aula04.banco.banco.dto;
 
 import com.aula04.banco.banco.utils.CPF;
+import com.aula04.banco.banco.utils.PASSWORD;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -15,6 +16,7 @@ public class RequestCliente {
     private String email;
     @CPF()
     private String cpf;
+    @PASSWORD
     private String senha;
     private Integer agencia;
 }
