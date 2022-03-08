@@ -51,8 +51,8 @@ public class ClienteController {
             @PathVariable UUID id,
             @RequestBody RequestCliente requestCliente
     ) throws Exception {
-        Cliente cliente = BancoAula04Application.bancoCliente.atualizaCliente(id, requestCliente);
-        return ResponseEntity.ok(new ResponseCliente(cliente));
+
+        return ResponseEntity.ok(new ResponseCliente(clienteService.atualizaCliente(id, requestCliente)));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity deletaCliente(@PathVariable UUID id) throws Exception {

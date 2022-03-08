@@ -3,6 +3,6 @@
   <component name="fastRequestCurrentProjectConfig">
     <option name="domain" value="http://localhost:8080" />
     <option name="enableEnv" value="local" />
-    <option name="enableProject" value="rebellion" />
+    <option name="enableProject" value="thymeleaf" />
   </component>
 </project>

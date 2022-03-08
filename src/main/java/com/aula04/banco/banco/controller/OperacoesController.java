@@ -20,4 +20,5 @@ public class OperacoesController {
         BancoAula04Application.bancoCliente.deposita(id, requestDeposito);
         return ResponseEntity.ok().build();
     }
+
 }
