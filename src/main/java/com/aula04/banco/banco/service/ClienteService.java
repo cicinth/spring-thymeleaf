@@ -2,20 +2,19 @@ package com.aula04.banco.banco.service;
 
 import com.aula04.banco.banco.BancoAula04Application;
 import com.aula04.banco.banco.dto.RequestCliente;
+import com.aula04.banco.banco.model.BancoCliente;
 import com.aula04.banco.banco.model.Cliente;
 import com.aula04.banco.banco.model.Conta;
 import com.aula04.banco.banco.model.TipoConta;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ClienteService {
 
     Random random = new Random();
+    BancoCliente bancoCliente = BancoAula04Application.bancoCliente;
 
     public Cliente cadastraCliente(RequestCliente requestCliente){
         List<Conta> contas = new ArrayList<>();
@@ -29,18 +28,18 @@ public class ClienteService {
                 requestCliente.getSenha(),
                 contas
         );
-        BancoAula04Application.bancoCliente.adiciona(cliente);
+        bancoCliente.adiciona(cliente);
         return cliente;
     }
 
     public List<Cliente> buscaTodosClientes(){
-        return BancoAula04Application.bancoCliente.buscaClientes();
+        return bancoCliente.buscaClientes();
     }
 
     public Cliente detalhesCliente(UUID id) throws Exception {
-        return BancoAula04Application.bancoCliente.detalhesCliente(id);
+        return bancoCliente.detalhesCliente(id);
     }
     public Cliente atualizaCliente(UUID id, RequestCliente requestCliente) throws Exception {
-        return BancoAula04Application.bancoCliente.atualizaCliente(id, requestCliente);
+        return bancoCliente.atualizaCliente(id, requestCliente);
     }
 }
