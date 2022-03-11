@@ -109,26 +109,62 @@ public class ClienteServiceTest {
 
     @Test
     public void atualizaCliente() throws Exception {
-        RequestCliente requestCliente = new RequestCliente(
+        Conta conta = new Conta(
+                UUID.randomUUID(),
+                1,
+                2,
+                TipoConta.CONTA_CORRENTE,
+                1000.0
+        );
+
+        Cliente cliente = new Cliente(
+                UUID.randomUUID(),
                 "cinthia",
+                "cinthia@email.com",
+                "1234",
+                Arrays.asList(conta)
+        );
+
+        RequestCliente requestClienteAtualiza = new RequestCliente(   "cinthia",
                 "cinthiaqcarsoso@teste.com",
                 "44934586719",
                 "54353",
                 3
         );
 
-        Cliente cliente = clienteService.cadastraCliente(requestCliente);
+        UUID id = UUID.randomUUID();
 
-        RequestCliente requestClienteAtualiza = new RequestCliente(   "maria",
-                "cinthiaqcarsoso@teste.com",
-                "44934586719",
-                "54353",
-                3
+        when(bancoCliente.atualizaCliente(id, requestClienteAtualiza)).thenReturn(cliente);
+
+        Cliente clienteAtualizado = clienteService.atualizaCliente(id, requestClienteAtualiza);
+
+        assertEquals(requestClienteAtualiza.getNome(), clienteAtualizado.getNome());
+        assertNotNull(clienteAtualizado.getId());
+    }
+
+    @Test
+    void recuperaDetalheCliente() throws Exception {
+        Conta conta = new Conta(
+                UUID.randomUUID(),
+                1,
+                2,
+                TipoConta.CONTA_CORRENTE,
+                1000.0
         );
 
-        Cliente clienteAtualizado = clienteService.atualizaCliente(cliente.getId(), requestClienteAtualiza);
+        Cliente cliente = new Cliente(
+                UUID.randomUUID(),
+                "cinthia",
+                "cinthia@email.com",
+                "1234",
+                Arrays.asList(conta)
+        );
 
-        Assertions.assertEquals("maria", clienteAtualizado.getNome());
+        when(bancoCliente.detalhesCliente(any())).thenReturn(cliente);
+
+        Cliente clienteRecupera =  clienteService.detalhesCliente(cliente.getId());
+
+        assertEquals(cliente, clienteRecupera);
     }
     @Test
     void buscaClienteQueNaoExiste() throws Exception {
