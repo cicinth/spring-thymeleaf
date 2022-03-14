@@ -10,6 +10,8 @@ import com.aula04.banco.banco.model.Conta;
 import com.aula04.banco.banco.model.TipoConta;
 import com.aula04.banco.banco.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,11 +31,13 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping
+    @Cacheable(value = "listaClientes")
     public List<ResponseCliente> clientes(){
         return ResponseCliente.toResponse(clienteService.buscaTodosClientes());
     }
 
     @PostMapping
+    @CacheEvict(value = "listaClientes", allEntries = true)
     public ResponseEntity<ResponseCliente> cadastraCliente(
             @RequestBody @Valid RequestCliente requestCliente,
             UriComponentsBuilder uriComponentsBuilder
@@ -46,7 +50,9 @@ public class ClienteController {
     public ResponseEntity<ResponseCliente> detalhesCliente(@PathVariable UUID id) throws Exception {
         return ResponseEntity.ok(new ResponseCliente(clienteService.detalhesCliente(id)));
     }
+
     @PutMapping("/{id}")
+    @CacheEvict(value = "listaClientes", allEntries = true)
     public ResponseEntity<ResponseCliente> atualizaCliente(
             @PathVariable UUID id,
             @RequestBody RequestCliente requestCliente
@@ -54,7 +60,9 @@ public class ClienteController {
 
         return ResponseEntity.ok(new ResponseCliente(clienteService.atualizaCliente(id, requestCliente)));
     }
+
     @DeleteMapping("/{id}")
+    @CacheEvict(value = "listaClientes", allEntries = true)
     public ResponseEntity deletaCliente(@PathVariable UUID id) throws Exception {
         BancoAula04Application.bancoCliente.deletaCliente(id);
         return ResponseEntity.ok().build();

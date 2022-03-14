@@ -16,17 +16,11 @@ public class BancoCliente {
         return BancoCliente.clientes;
     }
 
-    public Cliente detalhesCliente(UUID id) throws Exception {
-           Optional<Cliente> resultCliente =
-                   BancoCliente.clientes.stream().filter(cliente -> Objects.equals(cliente.getId(),id)).findAny();
-           if(resultCliente.isPresent()){
-               return resultCliente.get();
-           } else {
-               throw new Exception("Usuario nao encontrado");
-           }
+    public Optional<Cliente> detalhesCliente(UUID id) {
+           return BancoCliente.clientes.stream().filter(cliente -> Objects.equals(cliente.getId(),id)).findAny();
     }
 
-    public Cliente atualizaCliente(UUID id, RequestCliente requestCliente) throws Exception {
+    public Optional<Cliente> atualizaCliente(UUID id, RequestCliente requestCliente){
         BancoCliente.clientes.stream().filter(cliente -> Objects.equals(cliente.getId(),id))
                 .forEach(cliente -> {
                     cliente.setNome(requestCliente.getNome());
@@ -35,9 +29,9 @@ public class BancoCliente {
                 });
         return detalhesCliente(id);
     }
-    public void deletaCliente(UUID id) throws Exception {
-        Cliente cliente = detalhesCliente(id);
-        BancoCliente.clientes.remove(cliente);
+    public void deletaCliente(UUID id){
+        Optional<Cliente> cliente = detalhesCliente(id);
+        BancoCliente.clientes.remove(cliente.get());
     }
     public void deposita(UUID id, RequestDeposito requestDeposito) throws Exception{
         BancoCliente.clientes.stream().filter(cliente -> Objects.equals(cliente.getId(),id))
