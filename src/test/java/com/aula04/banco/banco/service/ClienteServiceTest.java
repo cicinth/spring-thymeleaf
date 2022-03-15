@@ -134,7 +134,7 @@ public class ClienteServiceTest {
 
         UUID id = UUID.randomUUID();
 
-        when(bancoCliente.atualizaCliente(id, requestClienteAtualiza)).thenReturn(cliente);
+        when(bancoCliente.atualizaCliente(id, requestClienteAtualiza)).thenReturn(java.util.Optional.of(cliente));
 
         Cliente clienteAtualizado = clienteService.atualizaCliente(id, requestClienteAtualiza);
 
@@ -160,7 +160,7 @@ public class ClienteServiceTest {
                 Arrays.asList(conta)
         );
 
-        when(bancoCliente.detalhesCliente(any())).thenReturn(cliente);
+        when(bancoCliente.detalhesCliente(any())).thenReturn(java.util.Optional.of(cliente));
 
         Cliente clienteRecupera =  clienteService.detalhesCliente(cliente.getId());
 
